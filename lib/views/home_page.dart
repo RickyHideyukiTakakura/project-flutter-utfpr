@@ -123,7 +123,7 @@ class MovieCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: Image.asset(
             movie.image,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),
       ),

@@ -1,16 +1,25 @@
-# myapp
+# Project Flutter UTFPR 
 
-A new Flutter project.
+## Descrição
 
-## Getting Started
+Para primeira entrega o aplicativo deve permitir o usuário visualisar, favoritar e avaliar um filme. 
 
-This project is a starting point for a Flutter application.
+## Requisitos
 
-A few resources to get you started if this is your first Flutter project:
+ A primeira parte do projeto consiste em um projeto Flutter estruturado de acordo com algum padrão de projeto (e.g. MVC, MVVM, MVP, etc) e deve apresentar toda a interface do usuário (UI) com navegação entre as páginas. Nesta etapa devem realizar validações em formulários, mensagens de erro e o tratamento de variáveis para o recebimento de dados. Não é necessário salvar dados (isto será realizado na parte 2). Vocês podem fazer um repositório com dados estáticos ou em memória para trabalhar com os dados. Na parte 2, vocês devem apenas substituir essa implementação pelo banco de dados que irão utilizar.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+ ## To-Do
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+  - [ ] Criar a page Home
+    - [ ] Criar a section Most Popular Movies
+    - [ ] Criar a section Top Rated Movies
+    - [ ] Criar a section My Recents Reviews
+  - [ ] Criar a page Details
+    - [ ] Mostrar detalhes do filme (title, description, genre, rating, etc)
+    - [ ] Criar um input para avaliar o filme
+    - [ ] Criar um input para escrever um review
+    - [ ] Criar um botão para favoritar o filme
+    - [ ] Criar um botão para salvar as alterações
+  - [ ] Criar a page Favorites
+  - [ ] Criar a page Profile
+
