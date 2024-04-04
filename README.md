@@ -1,8 +1,8 @@
-# Project Flutter UTFPR 
+# Project Flutter UTFPR
 
 ## Descrição
 
-Para primeira entrega o aplicativo deve permitir o usuário visualisar, favoritar e avaliar um filme. 
+Para primeira entrega o aplicativo deve permitir o usuário visualisar, favoritar e avaliar um filme.
 
 ## Requisitos
 
@@ -11,15 +11,22 @@ Para primeira entrega o aplicativo deve permitir o usuário visualisar, favorita
  ## To-Do
 
   - [ ] Criar a page Home
-    - [ ] Criar a section Most Popular Movies
-    - [ ] Criar a section Top Rated Movies
-    - [ ] Criar a section My Recents Reviews
+    - [x] Criar a section Top Rated Movies
+    - [x] Criar a section Favorite Movies
+    - [ ] Criar a section My Recent Reviews
   - [ ] Criar a page Details
     - [ ] Mostrar detalhes do filme (title, description, genre, rating, etc)
-    - [ ] Criar um input para avaliar o filme
-    - [ ] Criar um input para escrever um review
-    - [ ] Criar um botão para favoritar o filme
-    - [ ] Criar um botão para salvar as alterações
+    - [ ] Criar a page Review
+      - [ ] Criar um input para avaliar o filme
+      - [ ] Criar um input para escrever um review
+      - [ ] Criar um botão para favoritar o filme
+      - [ ] Criar um botão para salvar as alterações
   - [ ] Criar a page Favorites
   - [ ] Criar a page Profile
+  - [ ] Criar a page Search
+  - [ ] Criar um Bottom Navigation
+    - Home
+    - Search
+    - Favorites
+    - Profile
 

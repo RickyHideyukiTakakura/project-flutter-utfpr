@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/movie.dart';
 import 'package:myapp/repositories/movie_repository.dart';
+import 'package:myapp/views/details_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,6 +34,8 @@ class HomePage extends StatelessWidget {
             name: 'Ricky',
           ),
           PopularMoviesSection(),
+          SizedBox(height: 20),
+          FavoriteMoviesSection(),
         ],
       ),
     );
@@ -77,27 +80,35 @@ class PopularMoviesSection extends StatelessWidget {
     final movies = MovieRepository.table;
 
     return SizedBox(
-      height: 150,
+      height: 200,
       child: Column(
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 16),
             child: Text(
-              "Most Popular Movies",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              "Top Rated Movies",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: movies.length,
-              padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 16,
+              ),
               itemBuilder: (context, index) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8),
                   child: MovieCard(movie: movies[index]),
                 );
               },
+              separatorBuilder: (_, __) => const Divider(),
             ),
           ),
         ],
@@ -113,19 +124,84 @@ class MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(4),
-          child: Image.asset(
-            movie.image,
-            fit: BoxFit.fill,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => DetailsPage(
+              movie: movie,
+            ),
+          ),
+        );
+      },
+      child: SizedBox(
+        width: 120,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(4),
+            child: Image.asset(
+              movie.image,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class FavoriteMoviesSection extends StatelessWidget {
+  const FavoriteMoviesSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final movies = [];
+
+    return SizedBox(
+      height: 200,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(
+              left: 16,
+            ),
+            child: Text(
+              "Favorite Movies",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: (movies.isEmpty)
+                ? const Center(
+                    child: Text(
+                      "None movies add to favorites",
+                    ),
+                  )
+                : ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: movies.length,
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 16,
+                    ),
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8),
+                        child: MovieCard(movie: movies[index]),
+                      );
+                    },
+                    separatorBuilder: (_, __) => const Divider(),
+                  ),
+          ),
+        ],
       ),
     );
   }
