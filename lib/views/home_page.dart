@@ -27,16 +27,19 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Greetings(
-            name: 'Ricky',
-          ),
-          PopularMoviesSection(),
-          SizedBox(height: 20),
-          FavoriteMoviesSection(),
-        ],
+      body: const SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Greetings(
+              name: 'Ricky',
+            ),
+            PopularMoviesSection(),
+            SizedBox(height: 20),
+            FavoriteMoviesSection(),
+            MyReviewsSection(),
+          ],
+        ),
       ),
     );
   }
@@ -181,7 +184,7 @@ class FavoriteMoviesSection extends StatelessWidget {
             child: (movies.isEmpty)
                 ? const Center(
                     child: Text(
-                      "None movies add to favorites",
+                      "No movies added to favorites",
                     ),
                   )
                 : ListView.separated(
@@ -199,6 +202,75 @@ class FavoriteMoviesSection extends StatelessWidget {
                       );
                     },
                     separatorBuilder: (_, __) => const Divider(),
+                  ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyReviewsSection extends StatelessWidget {
+  const MyReviewsSection({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final movies = MovieRepository.table;
+
+    return SizedBox(
+      height: 400,
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(
+              left: 16,
+            ),
+            child: Text(
+              "My Recent Reviews",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Expanded(
+            child: (movies.isEmpty)
+                ? const Center(
+                    child: Text(
+                      "No movies recently reviewed",
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: 2,
+                    padding: const EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 16,
+                    ),
+                    itemBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Card(
+                          child: Column(
+                            children: <Widget>[
+                              ListTile(
+                                leading: Icon(Icons.movie),
+                                title: Text('The Irishman'),
+                                subtitle: Text('Review by Adrian'),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
           ),
         ],
