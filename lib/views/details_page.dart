@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/movie.dart';
 import 'package:myapp/repositories/movie_repository.dart';
+import 'package:myapp/views/review_page.dart';
 
 class DetailsPage extends StatelessWidget {
   final Movie movie;
@@ -13,7 +14,7 @@ class DetailsPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => {},
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(movie.title),
       ),
@@ -64,7 +65,7 @@ class DetailsPage extends StatelessWidget {
                         softWrap: true,
                         textAlign: TextAlign.justify,
                       ),
-                    )
+                    ),
                   ],
                 )
               ],
@@ -99,7 +100,16 @@ class DetailsPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                onPressed: () => {},
+                onPressed: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ReviewPage(
+                        movie: movie,
+                      ),
+                    ),
+                  )
+                },
                 child: const Text("Rate or Review"),
               ),
             ),
