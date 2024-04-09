@@ -19,103 +19,118 @@ class DetailsPage extends StatelessWidget {
         title: Text(movie.title),
       ),
       body: SingleChildScrollView(
-        // scrollDirection: Axis.horizontal,
         child: Column(
           children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Image.asset(
-                    movie.image,
-                    fit: BoxFit.cover,
-                    height: 200,
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Image.asset(
+                      movie.image,
+                      fit: BoxFit.cover,
+                      height: 200,
+                    ),
                   ),
-                ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 2),
-                      child: Text(
-                        movie.title,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                movie.title,
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "Directed by ${movie.director}",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        "Directed by ${movie.director}",
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            movie.description,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            softWrap: true,
+                            textAlign: TextAlign.justify,
+                          ),
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 200,
-                      child: Text(
-                        movie.description,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        softWrap: true,
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-            SizedBox(
-              child: Text("Release year: ${movie.releasedYear}"),
-            ),
-            SizedBox(
-              child: Text(
-                "Duration: ${movie.duration} minutes",
-              ),
-            ),
-            SizedBox(
-              child: Text(
-                "Genre: ${movie.genre.asMap().entries.map((e) => e.value).join(", ")}",
-              ),
-            ),
-            SizedBox(
-              child: Text("IMDB Rating: ${movie.rating}"),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                top: 16,
-              ),
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.deepPurple,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.only(right: 16, left: 16),
-                  textStyle: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                onPressed: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ReviewPage(
-                        movie: movie,
-                      ),
+                        TextButton.icon(
+                          onPressed: () => {},
+                          style: const ButtonStyle(
+                            padding:
+                                MaterialStatePropertyAll(EdgeInsets.all(0)),
+                            foregroundColor:
+                                MaterialStatePropertyAll(Colors.white),
+                            textStyle: MaterialStatePropertyAll(
+                              TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          icon: const Icon(Icons.favorite_outline),
+                          label: const Text("Favorite"),
+                        )
+                      ],
                     ),
                   )
-                },
-                child: const Text("Rate or Review"),
+                ],
               ),
             ),
-            const SizedBox(
-              height: 20,
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Text("Release year: ${movie.releasedYear}"),
+                  Text("Duration: ${movie.duration} minutes"),
+                  Text(
+                    "Genre: ${movie.genre.asMap().entries.map((e) => e.value).join(", ")}",
+                  ),
+                  Text("IMDB Rating: ${movie.rating}"),
+                ],
+              ),
             ),
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.only(right: 16, left: 16),
+                textStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ReviewPage(
+                      movie: movie,
+                    ),
+                  ),
+                )
+              },
+              child: const Text("Rate or Review"),
+            ),
+            const SizedBox(height: 20),
             const MyReview(),
           ],
         ),
@@ -135,9 +150,7 @@ class MyReview extends StatelessWidget {
       child: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.only(
-              left: 16,
-            ),
+            padding: EdgeInsets.only(left: 16),
             child: Text(
               "My Review",
               style: TextStyle(
@@ -166,7 +179,7 @@ class MyReview extends StatelessWidget {
                             trailing: Text("Rate: 10/10"),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(8.0),
+                            padding: EdgeInsets.all(16),
                             child: Text(
                               'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
                             ),
