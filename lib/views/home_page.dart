@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/movie.dart';
+import 'package:myapp/repositories/favorite_repository.dart';
 import 'package:myapp/repositories/movie_repository.dart';
 import 'package:myapp/views/details_page.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,12 +162,19 @@ class MovieCard extends StatelessWidget {
   }
 }
 
-class FavoriteMoviesSection extends StatelessWidget {
+class FavoriteMoviesSection extends StatefulWidget {
   const FavoriteMoviesSection({Key? key}) : super(key: key);
 
   @override
+  State<FavoriteMoviesSection> createState() => _FavoriteMoviesSectionState();
+}
+
+class _FavoriteMoviesSectionState extends State<FavoriteMoviesSection> {
+  late FavoriteRepository favoriteMovie;
+
+  @override
   Widget build(BuildContext context) {
-    final movies = [];
+    favoriteMovie = Provider.of<FavoriteRepository>(context);
 
     return SizedBox(
       height: 200,
@@ -179,27 +193,28 @@ class FavoriteMoviesSection extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: (movies.isEmpty)
+            child: (favoriteMovie.favoriteMoviesList.isEmpty)
                 ? const Center(
                     child: Text(
                       "No movies added to favorites",
                     ),
                   )
-                : ListView.separated(
+                : ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: movies.length,
+                    itemCount: favoriteMovie.favoriteMoviesList.length,
                     padding: const EdgeInsets.only(
                       left: 16,
                       right: 16,
                       top: 16,
                     ),
-                    itemBuilder: (context, index) {
+                    itemBuilder: (_, index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: MovieCard(movie: movies[index]),
+                        child: MovieCard(
+                          movie: favoriteMovie.favoriteMoviesList[index],
+                        ),
                       );
                     },
-                    separatorBuilder: (_, __) => const Divider(),
                   ),
           ),
         ],

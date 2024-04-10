@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/movie.dart';
+import 'package:myapp/repositories/favorite_repository.dart';
 import 'package:myapp/repositories/movie_repository.dart';
 import 'package:myapp/views/review_page.dart';
+import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class DetailsPage extends StatelessWidget {
   final Movie movie;
+  late FavoriteRepository favoriteMovie;
 
-  const DetailsPage({Key? key, required this.movie}) : super(key: key);
+  DetailsPage({Key? key, required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    favoriteMovie = Provider.of<FavoriteRepository>(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -73,7 +79,11 @@ class DetailsPage extends StatelessWidget {
                           ),
                         ),
                         TextButton.icon(
-                          onPressed: () => {},
+                          onPressed: () => {
+                            favoriteMovie.isFavorite(movie)
+                                ? favoriteMovie.remove(movie)
+                                : favoriteMovie.add(movie)
+                          },
                           style: const ButtonStyle(
                             padding:
                                 MaterialStatePropertyAll(EdgeInsets.all(0)),
@@ -86,7 +96,12 @@ class DetailsPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          icon: const Icon(Icons.favorite_outline),
+                          icon: Icon(
+                            favoriteMovie.isFavorite(movie)
+                                ? (Icons.favorite)
+                                : Icons.favorite_border_outlined,
+                            color: Colors.red,
+                          ),
                           label: const Text("Favorite"),
                         )
                       ],
