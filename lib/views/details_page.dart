@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/movie.dart';
 import 'package:myapp/repositories/favorite_repository.dart';
-import 'package:myapp/repositories/movie_repository.dart';
+import 'package:myapp/repositories/review_repository.dart';
 import 'package:myapp/views/review_page.dart';
 import 'package:provider/provider.dart';
 
@@ -146,7 +146,7 @@ class DetailsPage extends StatelessWidget {
               child: const Text("Rate or Review"),
             ),
             const SizedBox(height: 20),
-            const MyReview(),
+            MyReview(movieTitle: movie.title),
           ],
         ),
       ),
@@ -155,14 +155,17 @@ class DetailsPage extends StatelessWidget {
 }
 
 class MyReview extends StatelessWidget {
-  const MyReview({Key? key}) : super(key: key);
+  final String movieTitle;
 
+  const MyReview({Key? key, required this.movieTitle}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final movies = MovieRepository.table;
+    final reviewManager = Provider.of<ReviewRepository>(context);
+    final reviews = reviewManager.getReviewsForMovie(movieTitle);
 
     return SizedBox(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Padding(
             padding: EdgeInsets.only(left: 16),
@@ -176,32 +179,42 @@ class MyReview extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(16),
-            child: (movies.isEmpty)
+            child: reviews.isEmpty
                 ? const Center(
                     child: Text(
                       "No review added",
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Card(
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            leading: Icon(Icons.movie),
-                            title: Text('The Irishman'),
-                            subtitle: Text('Review by Adrian'),
-                            trailing: Text("Rate: 10/10"),
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: reviews.length,
+                    itemBuilder: (_, index) {
+                      final review = reviews[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Card(
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: const Icon(Icons.movie),
+                                title: Text(movieTitle),
+                                subtitle: const Text(
+                                  'Review by User',
+                                ),
+                                trailing: Text("Rate: ${review.rating}/10"),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Text(
+                                  review.reviewText,
+                                  textAlign: TextAlign.start,
+                                ),
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(16),
-                            child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        ),
+                      );
+                    },
                   ),
           ),
         ],

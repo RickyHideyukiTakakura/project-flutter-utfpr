@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/models/movie.dart';
 import 'package:myapp/repositories/favorite_repository.dart';
 import 'package:myapp/repositories/movie_repository.dart';
+import 'package:myapp/repositories/review_repository.dart';
 import 'package:myapp/views/details_page.dart';
 import 'package:provider/provider.dart';
 
@@ -181,9 +182,7 @@ class _FavoriteMoviesSectionState extends State<FavoriteMoviesSection> {
       child: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.only(
-              left: 16,
-            ),
+            padding: EdgeInsets.only(left: 16),
             child: Text(
               "Favorite Movies",
               style: TextStyle(
@@ -195,9 +194,7 @@ class _FavoriteMoviesSectionState extends State<FavoriteMoviesSection> {
           Expanded(
             child: (favoriteMovie.favoriteMoviesList.isEmpty)
                 ? const Center(
-                    child: Text(
-                      "No movies added to favorites",
-                    ),
+                    child: Text("No movies added to favorites"),
                   )
                 : ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -228,66 +225,59 @@ class MyReviewsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final movies = MovieRepository.table;
+    final reviewManager = Provider.of<ReviewRepository>(context);
+    final lastTwoReviews = reviewManager.lastTwoReviews;
 
-    return SizedBox(
-      height: 400,
-      child: Column(
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(
-              left: 16,
-            ),
-            child: Text(
-              "My Recent Reviews",
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+    return Column(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 16, top: 16),
+          child: Text(
+            "My Recent Reviews",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          Expanded(
-            child: (movies.isEmpty)
-                ? const Center(
-                    child: Text(
-                      "No movies recently reviewed",
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: 2,
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                    ),
-                    itemBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.only(right: 8),
-                        child: Card(
-                          child: Column(
-                            children: <Widget>[
-                              ListTile(
-                                leading: Icon(Icons.movie),
-                                title: Text('The Irishman'),
-                                subtitle: Text('Review by Adrian'),
+        ),
+        lastTwoReviews.isEmpty
+            ? const SizedBox(
+                height: 200,
+                child: Center(
+                  child: Text("No movies recently reviewed"),
+                ),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+                child: Column(
+                  children: List.generate(lastTwoReviews.length, (index) {
+                    final review = lastTwoReviews[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Card(
+                        child: Column(
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.movie),
+                              title: Text(review.movieTitle),
+                              subtitle: const Text('Review by User'),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                review.reviewText,
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                              Padding(
-                                padding: EdgeInsets.all(16),
-                                child: Text(
-                                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum',
-                                  maxLines: 4,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
+                      ),
+                    );
+                  }),
+                ),
+              ),
+      ],
     );
   }
 }

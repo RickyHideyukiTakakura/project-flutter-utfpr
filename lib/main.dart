@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/repositories/favorite_repository.dart';
+import 'package:myapp/repositories/review_repository.dart';
 import 'package:myapp/views/home_page.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +9,9 @@ void main() {
     providers: [
       ChangeNotifierProvider(
         create: (context) => FavoriteRepository(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ReviewRepository(),
       )
     ],
     child: const App(),

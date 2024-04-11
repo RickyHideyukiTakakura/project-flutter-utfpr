@@ -13,17 +13,18 @@ Para primeira entrega o aplicativo deve permitir o usuário visualisar, favorita
   - [x] Criar a page Home
     - [x] Criar a section Top Rated Movies
     - [x] Criar a section Favorite Movies
-      - [ ] Adicionar filmes a section (Ao clicar em favoritar um filme)
+      - [x] Adicionar filmes a section (Ao clicar em favoritar um filme)
     - [x] Criar a section My Recent Reviews
-      - [ ] Adicionar reviews a section (Ao fazer um review de um filme)
-  - [ ] Criar a page Details
+      - [x] Adicionar reviews a section (Ao fazer um review de um filme)
+  - [x] Criar a page Details
     - [x] Mostrar detalhes do filme (title, description, genre, rating, etc)
     - [x] Criar a page Review
       - [x] Criar um input para avaliar o filme
       - [x] Criar um input para escrever um review
-      - [ ] Criar um botão para favoritar o filme
+      - [x] Criar um botão para favoritar o filme
       - [x] Criar um botão para salvar as alterações
-    - [ ] Alterar a page Details para exibir a review após ter publicado uma review
+    - [x] Alterar a page Details para exibir a review após ter publicado uma review
+
   - [ ] Criar a page Favorites
   - [ ] Criar a page Profile
   - [ ] Criar a page Search
@@ -32,8 +33,3 @@ Para primeira entrega o aplicativo deve permitir o usuário visualisar, favorita
     - Search
     - Favorites
     - Profile
-  - [ ] Adicionar state as widgets necessárias
-    - Home -> Favorite Movies & Reviews
-    - Details -> Review
-    - ...
-

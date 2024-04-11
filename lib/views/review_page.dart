@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/models/movie.dart';
+import 'package:myapp/models/review.dart';
+import 'package:myapp/repositories/review_repository.dart';
+import 'package:provider/provider.dart';
 
 class ReviewPage extends StatelessWidget {
   final Movie movie;
   final TextEditingController ratingController = TextEditingController();
   final TextEditingController reviewController = TextEditingController();
 
-  // Adiciona um GlobalKey para o formulário
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   ReviewPage({Key? key, required this.movie}) : super(key: key);
@@ -25,7 +27,7 @@ class ReviewPage extends StatelessWidget {
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Form(
-          key: _formKey, // Define a chave do formulário aqui
+          key: _formKey,
           child: Column(
             children: [
               Row(
@@ -40,7 +42,9 @@ class ReviewPage extends StatelessWidget {
                           Text(
                             movie.title,
                             style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           const SizedBox(height: 20),
                           TextFormField(
@@ -72,8 +76,8 @@ class ReviewPage extends StatelessWidget {
                             validator: (value) {
                               if (value!.isEmpty) {
                                 return 'Please enter a rating';
-                              } else if (double.parse(value) < 1 ||
-                                  double.parse(value) > 10) {
+                              } else if ((double.parse(value) < 1 ||
+                                  double.parse(value) > 10)) {
                                 return 'Rating must be between 1 - 10';
                               }
                               return null;
@@ -129,6 +133,18 @@ class ReviewPage extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
+                        final newReview = Review(
+                          id: UniqueKey().toString(),
+                          movieTitle: movie.title,
+                          rating: double.parse(ratingController.text),
+                          reviewText: reviewController.text,
+                        );
+
+                        Provider.of<ReviewRepository>(
+                          context,
+                          listen: false,
+                        ).addReview(newReview);
+
                         Navigator.pop(context);
 
                         ScaffoldMessenger.of(context).showSnackBar(
