@@ -5,12 +5,17 @@ import 'package:myapp/repositories/review_repository.dart';
 import 'package:myapp/views/review_page.dart';
 import 'package:provider/provider.dart';
 
-// ignore: must_be_immutable
-class DetailsPage extends StatelessWidget {
+class DetailsPage extends StatefulWidget {
   final Movie movie;
-  late FavoriteRepository favoriteMovie;
 
-  DetailsPage({Key? key, required this.movie}) : super(key: key);
+  const DetailsPage({Key? key, required this.movie}) : super(key: key);
+
+  @override
+  State<DetailsPage> createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends State<DetailsPage> {
+  late FavoriteRepository favoriteMovie;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +27,7 @@ class DetailsPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text(movie.title),
+        title: Text(widget.movie.title),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -32,9 +37,13 @@ class DetailsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: const EdgeInsets.only(
+                      top: 16,
+                      left: 16,
+                      right: 16,
+                    ),
                     child: Image.asset(
-                      movie.image,
+                      widget.movie.image,
                       fit: BoxFit.cover,
                       height: 200,
                     ),
@@ -50,14 +59,14 @@ class DetailsPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                movie.title,
+                                widget.movie.title,
                                 style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Text(
-                                "Directed by ${movie.director}",
+                                "Directed by ${widget.movie.director}",
                                 style: const TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.normal,
@@ -69,7 +78,7 @@ class DetailsPage extends StatelessWidget {
                         SizedBox(
                           width: 200,
                           child: Text(
-                            movie.description,
+                            widget.movie.description,
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
@@ -80,9 +89,9 @@ class DetailsPage extends StatelessWidget {
                         ),
                         TextButton.icon(
                           onPressed: () => {
-                            favoriteMovie.isFavorite(movie)
-                                ? favoriteMovie.remove(movie)
-                                : favoriteMovie.add(movie)
+                            favoriteMovie.isFavorite(widget.movie)
+                                ? favoriteMovie.remove(widget.movie)
+                                : favoriteMovie.add(widget.movie)
                           },
                           style: const ButtonStyle(
                             padding:
@@ -97,7 +106,7 @@ class DetailsPage extends StatelessWidget {
                             ),
                           ),
                           icon: Icon(
-                            favoriteMovie.isFavorite(movie)
+                            favoriteMovie.isFavorite(widget.movie)
                                 ? (Icons.favorite)
                                 : Icons.favorite_border_outlined,
                             color: Colors.red,
@@ -114,12 +123,12 @@ class DetailsPage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Text("Release year: ${movie.releasedYear}"),
-                  Text("Duration: ${movie.duration} minutes"),
+                  Text("Release year: ${widget.movie.releasedYear}"),
+                  Text("Duration: ${widget.movie.duration} minutes"),
                   Text(
-                    "Genre: ${movie.genre.asMap().entries.map((e) => e.value).join(", ")}",
+                    "Genre: ${widget.movie.genre.asMap().entries.map((e) => e.value).join(", ")}",
                   ),
-                  Text("IMDB Rating: ${movie.rating}"),
+                  Text("IMDB Rating: ${widget.movie.rating}"),
                 ],
               ),
             ),
@@ -138,15 +147,15 @@ class DetailsPage extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => ReviewPage(
-                      movie: movie,
+                      movie: widget.movie,
                     ),
                   ),
                 )
               },
               child: const Text("Rate or Review"),
             ),
-            const SizedBox(height: 20),
-            MyReview(movieTitle: movie.title),
+            const SizedBox(height: 48),
+            MyReview(movieTitle: widget.movie.title),
           ],
         ),
       ),
@@ -154,14 +163,22 @@ class DetailsPage extends StatelessWidget {
   }
 }
 
-class MyReview extends StatelessWidget {
+class MyReview extends StatefulWidget {
   final String movieTitle;
 
   const MyReview({Key? key, required this.movieTitle}) : super(key: key);
+
+  @override
+  State<MyReview> createState() => _MyReviewState();
+}
+
+class _MyReviewState extends State<MyReview> {
+  late ReviewRepository reviewList;
+
   @override
   Widget build(BuildContext context) {
-    final reviewManager = Provider.of<ReviewRepository>(context);
-    final reviews = reviewManager.getReviewsForMovie(movieTitle);
+    reviewList = Provider.of<ReviewRepository>(context);
+    final reviews = reviewList.getReviewsForMovie(widget.movieTitle);
 
     return SizedBox(
       child: Column(
@@ -197,7 +214,7 @@ class MyReview extends StatelessWidget {
                             children: [
                               ListTile(
                                 leading: const Icon(Icons.movie),
-                                title: Text(movieTitle),
+                                title: Text(widget.movieTitle),
                                 subtitle: const Text(
                                   'Review by User',
                                 ),
