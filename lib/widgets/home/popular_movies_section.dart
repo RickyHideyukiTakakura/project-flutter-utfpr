@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/repositories/movie_repository.dart';
-import 'package:myapp/widgets/home/movie_card.dart';
+import 'package:myapp/widgets/movie_card.dart';
 
 class PopularMoviesSection extends StatelessWidget {
   const PopularMoviesSection({Key? key}) : super(key: key);

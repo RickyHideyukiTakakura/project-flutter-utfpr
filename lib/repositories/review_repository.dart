@@ -6,7 +6,7 @@ class ReviewRepository extends ChangeNotifier {
 
   List<Review> get allReviews => List.unmodifiable(_reviews);
 
-  List<Review> getReviewsForMovie(String movieTitle) {
+  List<Review> getReviewsByTitle(String movieTitle) {
     return _reviews.where((review) => review.movieTitle == movieTitle).toList();
   }
 

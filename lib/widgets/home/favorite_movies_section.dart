@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/repositories/favorite_repository.dart';
-import 'package:myapp/widgets/home/movie_card.dart';
+import 'package:myapp/widgets/movie_card.dart';
 import 'package:provider/provider.dart';
 
 class FavoriteMoviesSection extends StatefulWidget {

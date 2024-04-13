@@ -37,8 +37,7 @@ class MovieCard extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8),
+            Expanded(
               child: Text(
                 movie.title,
                 style: const TextStyle(
