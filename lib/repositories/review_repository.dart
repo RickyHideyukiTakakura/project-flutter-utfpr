@@ -13,7 +13,7 @@ class ReviewRepository extends ChangeNotifier {
   List<Review> get lastTwoReviews {
     return _reviews.length <= 2
         ? List.unmodifiable(_reviews)
-        : List.unmodifiable(_reviews.take(2));
+        : List.unmodifiable(_reviews.reversed.take(2).toList().reversed);
   }
 
   void addReview(Review review) {
