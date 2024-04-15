@@ -9,7 +9,7 @@ class FavoriteRepository extends ChangeNotifier {
   UnmodifiableListView<Movie> get favoriteMoviesList =>
       UnmodifiableListView(_favoriteMoviesList);
 
-  add(Movie movie) {
+  addFavorite(Movie movie) {
     if (!_favoriteMoviesList.contains(movie)) {
       _favoriteMoviesList.add(movie);
     }
@@ -17,7 +17,7 @@ class FavoriteRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  remove(Movie movie) {
+  removeFavorite(Movie movie) {
     _favoriteMoviesList.remove(movie);
 
     notifyListeners();

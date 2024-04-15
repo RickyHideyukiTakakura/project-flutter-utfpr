@@ -26,20 +26,18 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "Projeto Flutter UTFPR",
       theme: ThemeData(
-        primarySwatch: Colors.indigo,
+        primarySwatch: Colors.deepPurple,
         colorScheme: ColorScheme.dark(
-          // Mantenha a base escura mas faça ajustes para claridade onde necessário
-          primary: Colors.indigo, // Cor primária
-          secondary: Colors.indigoAccent, // Cor secundária
-          surface: Colors.grey[850]!, // Cor da superfície, levemente mais clara
-          background: Colors.grey[900]!, // Cor de fundo, mantendo escura
-          onPrimary: Colors
-              .white, // Cor para contrastar com a primária (para texto/icons)
-          onSecondary: Colors.white, // Cor para contrastar com a secundária
-          onSurface: Colors.white, // Cor para contrastar com a superfície
-          onBackground: Colors.white, // Cor para contrastar com o fundo
-          onError: Colors.white, // Cor para contrastar com erros
-          brightness: Brightness.dark, // Mantendo o tema geral escuro
+          primary: Colors.deepPurple,
+          secondary: Colors.deepPurpleAccent,
+          surface: Colors.grey[850]!,
+          background: Colors.grey[900]!,
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Colors.white,
+          onBackground: Colors.white,
+          onError: Colors.white,
+          brightness: Brightness.dark,
         ),
       ),
       home: const HomePage(),

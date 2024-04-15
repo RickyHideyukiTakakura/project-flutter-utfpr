@@ -16,8 +16,15 @@ class ReviewRepository extends ChangeNotifier {
         : List.unmodifiable(_reviews.reversed.take(2).toList().reversed);
   }
 
-  void addReview(Review review) {
+  addReview(Review review) {
     _reviews.add(review);
+
+    notifyListeners();
+  }
+
+  removeReview(Review review) {
+    _reviews.remove(review);
+
     notifyListeners();
   }
 }

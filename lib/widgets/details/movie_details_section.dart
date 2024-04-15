@@ -79,8 +79,8 @@ class _MovieDetailsSectionState extends State<MovieDetailsSection> {
                     TextButton.icon(
                       onPressed: () => {
                         favoriteMovie.isFavorite(widget.movie)
-                            ? favoriteMovie.remove(widget.movie)
-                            : favoriteMovie.add(widget.movie)
+                            ? favoriteMovie.removeFavorite(widget.movie)
+                            : favoriteMovie.addFavorite(widget.movie)
                       },
                       style: const ButtonStyle(
                         padding: MaterialStatePropertyAll(EdgeInsets.all(0)),
