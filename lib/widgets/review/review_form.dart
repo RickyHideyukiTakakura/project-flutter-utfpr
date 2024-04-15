@@ -25,6 +25,7 @@ class _ReviewFormState extends State<ReviewForm> {
     return Form(
       key: formKey,
       child: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
           MovieTitleAndRatingForm(
             movie: widget.movie,
@@ -147,30 +148,32 @@ class ReviewTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: TextFormField(
-        controller: reviewController,
-        maxLines: 8,
-        keyboardType: TextInputType.multiline,
-        decoration: const InputDecoration(
-          labelText: 'Write down your review...',
-          labelStyle: TextStyle(
-            color: Colors.white70,
-            fontSize: 16,
-          ),
-          alignLabelWithHint: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
+      child: Expanded(
+        child: TextFormField(
+          controller: reviewController,
+          maxLines: 16,
+          keyboardType: TextInputType.multiline,
+          decoration: const InputDecoration(
+            labelText: 'Write down your review...',
+            labelStyle: TextStyle(
+              color: Colors.white70,
+              fontSize: 16,
+            ),
+            alignLabelWithHint: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
             ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.white),
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-          ),
+          style: const TextStyle(color: Colors.white),
         ),
-        style: const TextStyle(color: Colors.white),
       ),
     );
   }
