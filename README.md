@@ -2,7 +2,33 @@
 
 ## Descrição
 
-Para primeira entrega o aplicativo deve permitir o usuário visualisar, favoritar e avaliar um filme.
+Para primeira entrega o aplicativo deve permitir o usuário visualizar, favoritar e avaliar um filme.
+
+## Instalação
+
+1 - Clonar o repositório na sua máquina
+
+```bash
+  git clone https://github.com/RickyHideyukiTakakura/project-flutter-utfpr.git
+```
+
+2 - Entrar no diretório do projeto
+
+```bash
+  cd project-flutter-utfpr
+```
+
+3 - Instalar as dependências
+
+```bash
+  flutter pub get
+```
+
+4 - Rodar o projeto
+
+```bash
+  flutter run
+```
 
 ## Requisitos
 
