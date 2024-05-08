@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/views/my_reviews_page.dart';
 import 'package:myapp/widgets/home/favorite_movies_section.dart';
 import 'package:myapp/widgets/home/greetings.dart';
 import 'package:myapp/widgets/home/my_reviews_section.dart';
 import 'package:myapp/widgets/home/popular_movies_section.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int currentPage = 0;
   late PageController pc;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -31,7 +34,56 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey, // Use the scaffoldKey for the Scaffold
       appBar: appBarHome(),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            const SizedBox(
+              height: 100,
+              child: DrawerHeader(
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        'https://github.com/rickyhideyukitakakura.png',
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 16),
+                      child: Text('Ricky'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                Navigator.pop(context); // close the drawer
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app
+                // ...
+                Navigator.pop(context); // close the drawer
+              },
+            ),
+            const Divider(), // Adiciona uma linha divisória visual opcional
+            ListTile(
+              title: const Text('Logout'),
+              leading: const Icon(Icons.exit_to_app), // Ícone de logout
+              onTap: () {
+                context.read<AuthService>().signOut();
+              },
+            ),
+          ],
+        ),
+      ),
       body: PageView(
         controller: pc,
         onPageChanged: setCurrentPage,
@@ -70,7 +122,7 @@ class _HomePageState extends State<HomePage> {
   AppBar appBarHome() => AppBar(
         leading: IconButton(
           icon: const Icon(Icons.menu),
-          onPressed: () => {},
+          onPressed: () => _scaffoldKey.currentState?.openDrawer(),
         ),
         title: const Text(
           "My App",

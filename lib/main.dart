@@ -1,18 +1,23 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:myapp/firebase_options.dart';
 import 'package:myapp/repositories/favorite_repository.dart';
 import 'package:myapp/repositories/review_repository.dart';
-import 'package:myapp/views/home_page.dart';
+import 'package:myapp/services/auth_service.dart';
+import 'package:myapp/widgets/auth_check.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(
-        create: (context) => FavoriteRepository(),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => ReviewRepository(),
-      )
+      ChangeNotifierProvider(create: (context) => AuthService()),
+      ChangeNotifierProvider(create: (context) => FavoriteRepository()),
+      ChangeNotifierProvider(create: (context) => ReviewRepository())
     ],
     child: const App(),
   ));
@@ -28,7 +33,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         colorScheme: ColorScheme.dark(
-          primary: Colors.deepPurple,
+          primary: Colors.deepPurple[100]!,
           secondary: Colors.deepPurpleAccent,
           surface: Colors.grey[850]!,
           background: Colors.grey[900]!,
@@ -40,7 +45,7 @@ class App extends StatelessWidget {
           brightness: Brightness.dark,
         ),
       ),
-      home: const HomePage(),
+      home: const AuthCheck(),
     );
   }
 }

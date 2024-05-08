@@ -2,7 +2,7 @@
 
 ## Descrição
 
-Para primeira entrega o aplicativo deve permitir o usuário visualizar, favoritar e avaliar um filme.
+Para segunda entrega o aplicativo deve permitir o usuário fazer a autenticação/cadastro, salvar os filmes favoritados e as reviews em um banco de dados, o aplicativo deve trazer o catálogo de filme de api externa
 
 ## Instalação
 
@@ -32,7 +32,7 @@ Para primeira entrega o aplicativo deve permitir o usuário visualizar, favorita
 
 ## Requisitos
 
-A primeira parte do projeto consiste em um projeto Flutter estruturado de acordo com algum padrão de projeto (e.g. MVC, MVVM, MVP, etc) e deve apresentar toda a interface do usuário (UI) com navegação entre as páginas. Nesta etapa devem realizar validações em formulários, mensagens de erro e o tratamento de variáveis para o recebimento de dados. Não é necessário salvar dados (isto será realizado na parte 2). Vocês podem fazer um repositório com dados estáticos ou em memória para trabalhar com os dados. Na parte 2, vocês devem apenas substituir essa implementação pelo banco de dados que irão utilizar.
+Consiste na continuação do Projeto em Flutter (Parte 1), no qual os alunos devem realizar a integração do aplicativo com um sistema de banco de dados (online ou offline) e desenvolver ou integrar um sistema para a autenticação (login) dos usuários, protegendo o acesso às funcionalidades do aplicativo. Você pode escolher quais serviços deseja utilizar para o projeto. Importante: o uso de uma API não será considerado como banco de dados nesta etapa. Caso seu projeto inclua o uso de uma API ou de um backend próprio, você pode usar um banco de dados local (e.g. SharedPreferences ou Hive) para salvar dados locais (e.g. dados do usuário, tokens, preferências do app, etc).
 
 ## Integrantes
 
@@ -41,21 +41,10 @@ A primeira parte do projeto consiste em um projeto Flutter estruturado de acordo
 
 ## To-Do
 
-- [x] Criar a page Home
-  - [x] Criar a section Top Rated Movies
-  - [x] Criar a section Favorite Movies
-    - [x] Adicionar filmes a section (Ao clicar em favoritar um filme)
-  - [x] Criar a section My Recent Reviews
-    - [x] Adicionar reviews a section (Ao fazer um review de um filme)
-- [x] Criar a page Details
-  - [x] Mostrar detalhes do filme (title, description, genre, rating, etc)
-- [x] Criar a page Review
-  - [x] Criar um input para avaliar o filme
-  - [x] Criar um input para escrever um review
-  - [x] Criar um botão para favoritar o filme
-  - [x] Criar um botão para salvar as alterações
-  - [x] Alterar a page Details para exibir a review após ter publicado uma review
-- [x] Criar a page My Reviews
-- [x] Criar um Bottom Navigation
-  - Home
-  - My Reviews
+- [x] Configurar o Firebase
+- [x] Criar a page Auth
+  - [x] Deve ser possível o usuário fazer login
+  - [x] Deve ser possível o usuário se cadastrar
+- [ ] Trazer o catálogo de filme de uma API externa
+- [ ] Salvar os filmes favoritados em um Database
+- [ ] Salvar as reviews em um Database
