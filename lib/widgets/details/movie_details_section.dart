@@ -31,7 +31,7 @@ class _MovieDetailsSectionState extends State<MovieDetailsSection> {
                   left: 16,
                   right: 16,
                 ),
-                child: Image.asset(
+                child: Image.network(
                   widget.movie.image,
                   fit: BoxFit.cover,
                   height: 220,
@@ -54,13 +54,6 @@ class _MovieDetailsSectionState extends State<MovieDetailsSection> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            "Directed by ${widget.movie.director}",
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -73,6 +66,8 @@ class _MovieDetailsSectionState extends State<MovieDetailsSection> {
                           fontWeight: FontWeight.normal,
                         ),
                         softWrap: true,
+                        maxLines: 6,
+                        overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.justify,
                       ),
                     ),
@@ -80,7 +75,7 @@ class _MovieDetailsSectionState extends State<MovieDetailsSection> {
                       onPressed: () => {
                         favoriteMovie.isFavorite(widget.movie)
                             ? favoriteMovie.removeFavorite(widget.movie)
-                            : favoriteMovie.addFavorite(widget.movie)
+                            : favoriteMovie.addFavorite([widget.movie])
                       },
                       style: const ButtonStyle(
                         padding: MaterialStatePropertyAll(EdgeInsets.all(0)),
@@ -112,10 +107,10 @@ class _MovieDetailsSectionState extends State<MovieDetailsSection> {
             children: [
               Text("Release year: ${widget.movie.releasedYear}"),
               Text("Duration: ${widget.movie.duration} minutes"),
-              Text(
-                "Genre: ${widget.movie.genre.asMap().entries.map((e) => e.value).join(", ")}",
-              ),
-              Text("IMDB Rating: ${widget.movie.rating}"),
+              // Text(
+              //   "Genre: ${widget.movie.genre.asMap().entries.map((e) => e.value).join(", ")}",
+              // ),
+              Text("Rating: ${widget.movie.rating}"),
             ],
           ),
         ),

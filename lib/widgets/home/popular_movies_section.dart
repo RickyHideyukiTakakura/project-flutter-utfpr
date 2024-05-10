@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/models/movie.dart'; // Certifique-se de importar o modelo Movie
 import 'package:myapp/repositories/movie_repository.dart';
 import 'package:myapp/widgets/movie_card.dart';
 
@@ -7,8 +8,6 @@ class PopularMoviesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final movies = MovieRepository.table;
-
     return SizedBox(
       height: 240,
       child: Column(
@@ -24,21 +23,31 @@ class PopularMoviesSection extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: movies.length,
-              padding: const EdgeInsets.only(
-                left: 16,
-                right: 16,
-                top: 16,
-              ),
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: MovieCard(movie: movies[index]),
-                );
+            child: FutureBuilder<List<Movie>>(
+              future: MovieRepository.fetchMovies(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: snapshot.data!.length > 10
+                          ? 10
+                          : snapshot.data!.length,
+                      padding:
+                          const EdgeInsets.only(left: 16, right: 16, top: 16),
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: MovieCard(movie: snapshot.data![index]),
+                        );
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  }
+                }
+                return const Center(child: CircularProgressIndicator());
               },
-              separatorBuilder: (_, __) => const Divider(),
             ),
           ),
         ],

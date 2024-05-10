@@ -16,8 +16,16 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AuthService()),
-      ChangeNotifierProvider(create: (context) => FavoriteRepository()),
-      ChangeNotifierProvider(create: (context) => ReviewRepository())
+      ChangeNotifierProvider(
+        create: (context) => FavoriteRepository(
+          auth: context.read<AuthService>(),
+        ),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => ReviewRepository(
+          auth: context.read<AuthService>(),
+        ),
+      )
     ],
     child: const App(),
   ));

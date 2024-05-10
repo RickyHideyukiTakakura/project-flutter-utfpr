@@ -45,6 +45,13 @@ Consiste na continuação do Projeto em Flutter (Parte 1), no qual os alunos dev
 - [x] Criar a page Auth
   - [x] Deve ser possível o usuário fazer login
   - [x] Deve ser possível o usuário se cadastrar
-- [ ] Trazer o catálogo de filme de uma API externa
-- [ ] Salvar os filmes favoritados em um Database
-- [ ] Salvar as reviews em um Database
+- [x] Trazer o catálogo de filme de uma API externa
+- [x] Salvar os filmes favoritados em um Database
+- [x] Salvar as reviews em um Database
+
+Opcional
+
+- [ ] Criar a page Top Rated Movies (a lista completa de filmes)
+- [ ] Criar a Profile
+- [ ] Ajustar Menu Drawer
+- [ ] Refatorar o código

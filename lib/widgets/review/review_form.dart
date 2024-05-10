@@ -108,7 +108,7 @@ class MovieTitleAndRatingForm extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Image.asset(
+          child: Image.network(
             movie.image,
             width: 160,
             height: 200,
@@ -226,6 +226,7 @@ class PublishButtonState extends State<PublishButton> {
     if (widget.formKey.currentState!.validate()) {
       final newReview = Review(
         id: UniqueKey().toString(),
+        movieId: widget.movie.id,
         movieTitle: widget.movie.title,
         rating: double.parse(widget.ratingController.text),
         reviewText: widget.reviewController.text,
