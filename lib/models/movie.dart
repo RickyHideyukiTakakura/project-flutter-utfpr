@@ -22,13 +22,20 @@ class Movie {
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
       id: json['id'].toString(),
-      title: json['title'],
-      description: json['overview'],
-      releasedYear: int.parse(json['release_date'].split('-')[0]),
+      title: json['title'] ?? 0,
+      description: json['overview'] ?? 0,
+      releasedYear:
+          json['release_date'] != null && json['release_date'].isNotEmpty
+              ? int.parse(json['release_date'].split('-')[0])
+              : 0,
       duration: json['runtime'] ?? 0,
-      rating: (json['vote_average'] as num).toDouble(),
+      rating: json['vote_average'] != null
+          ? (json['vote_average'] as num).toDouble()
+          : 0,
       // genre: List<String>.from(json['genres.name']),
-      image: 'https://image.tmdb.org/t/p/w500${json['poster_path']}',
+      image: json['poster_path'] != null
+          ? 'https://image.tmdb.org/t/p/w500${json['poster_path']}'
+          : '/images/no_image_available.jpeg',
     );
   }
 

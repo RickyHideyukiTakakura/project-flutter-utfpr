@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/services/auth_service.dart';
 import 'package:myapp/views/my_reviews_page.dart';
+import 'package:myapp/views/search_page.dart';
 import 'package:myapp/widgets/home/favorite_movies_section.dart';
 import 'package:myapp/widgets/home/greetings.dart';
 import 'package:myapp/widgets/home/my_reviews_section.dart';
@@ -87,8 +88,9 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: pc,
         onPageChanged: setCurrentPage,
-        children: const [
+        children: [
           HomeContent(),
+          SearchPage(),
           MyReviewsPage(),
         ],
       ),
@@ -104,6 +106,10 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.reviews),

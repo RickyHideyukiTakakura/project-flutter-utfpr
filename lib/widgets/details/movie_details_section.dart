@@ -24,11 +24,18 @@ class MovieDetailsSection extends StatelessWidget {
                       left: 16,
                       right: 16,
                     ),
-                    child: Image.network(
-                      movie.image,
-                      fit: BoxFit.cover,
-                      height: 220,
-                    ),
+                    child: movie.image.startsWith('http')
+                        ? Image.network(
+                            movie.image,
+                            fit: BoxFit.cover,
+                            height: 220,
+                          )
+                        : Image.asset(
+                            'images/no_image_available.jpeg',
+                            fit: BoxFit.cover,
+                            height: 220,
+                            width: 160,
+                          ),
                   ),
                   Expanded(
                     child: Column(

@@ -108,12 +108,19 @@ class MovieTitleAndRatingForm extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Image.network(
-            movie.image,
-            width: 160,
-            height: 200,
-            fit: BoxFit.fill,
-          ),
+          child: movie.image.startsWith('http')
+              ? Image.network(
+                  movie.image,
+                  width: 160,
+                  height: 200,
+                  fit: BoxFit.fill,
+                )
+              : Image.asset(
+                  'images/no_image_available.jpeg',
+                  width: 160,
+                  height: 200,
+                  fit: BoxFit.fill,
+                ),
         ),
       ],
     );

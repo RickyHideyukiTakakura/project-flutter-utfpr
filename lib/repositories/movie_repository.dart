@@ -26,7 +26,9 @@ class MovieRepository {
 
   static Future<Movie> fetchMovieDetails(String movieId) async {
     if (moviesCache.containsKey(movieId)) {
-      return moviesCache[movieId]!;
+      if (moviesCache[movieId]!.duration > 0) {
+        return moviesCache[movieId]!;
+      }
     }
 
     final url = 'https://api.themoviedb.org/3/movie/$movieId?api_key=$_apiKey';
@@ -38,6 +40,20 @@ class MovieRepository {
       return movie;
     } else {
       throw Exception('Failed to load movie details');
+    }
+  }
+
+  static Future<List<Movie>> searchMovies(String query) async {
+    final encodedQuery = Uri.encodeComponent(query);
+    final url =
+        'https://api.themoviedb.org/3/search/movie?api_key=$_apiKey&query=$encodedQuery';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      List<dynamic> results = jsonDecode(response.body)['results'];
+      return results.map((movie) => Movie.fromJson(movie)).toList();
+    } else {
+      throw Exception('Failed to load search results');
     }
   }
 }
