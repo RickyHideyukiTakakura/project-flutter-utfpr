@@ -31,4 +31,12 @@ class Movie {
       image: 'https://image.tmdb.org/t/p/w500${json['poster_path']}',
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Movie && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
