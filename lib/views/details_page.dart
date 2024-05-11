@@ -25,9 +25,9 @@ class DetailsPage extends StatelessWidget {
                 snapshot.hasData) {
               return Text(snapshot.data!.title);
             } else if (snapshot.hasError) {
-              return Text("Error");
+              return const Text("Error");
             }
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           },
         ),
       ),
@@ -40,7 +40,7 @@ class DetailsPage extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text("Error: ${snapshot.error}");
           }
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         },
       ),
     );

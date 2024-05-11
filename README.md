@@ -52,6 +52,7 @@ Consiste na continuação do Projeto em Flutter (Parte 1), no qual os alunos dev
 Opcional
 
 - [ ] Criar a page Top Rated Movies (a lista completa de filmes)
-- [ ] Criar a Profile
+- [ ] Criar a page Profile
+- [ ] Criar a page Search
 - [ ] Ajustar Menu Drawer
 - [ ] Refatorar o código

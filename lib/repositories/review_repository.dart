@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/database/db_firestore.dart';
 import 'package:myapp/models/review.dart';
@@ -9,8 +12,17 @@ class ReviewRepository extends ChangeNotifier {
   late FirebaseFirestore db;
   late AuthService auth;
 
+  late final StreamSubscription<User?> authListener;
+
   ReviewRepository({required this.auth}) {
-    _startRepository();
+    authListener =
+        FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        _startRepository();
+      } else {
+        _clearReviews();
+      }
+    });
   }
 
   _startRepository() async {
@@ -32,13 +44,19 @@ class ReviewRepository extends ChangeNotifier {
           id: doc.get('id'),
           movieTitle: doc.get('movieTitle'),
           movieId: doc.get('movieId'),
-          rating: doc.get('rating'),
           reviewText: doc.get('reviewText'),
+          rating: doc.get('rating'),
         );
         _reviews.add(review);
       }
       notifyListeners();
     }
+  }
+
+  _clearReviews() {
+    _reviews.clear();
+
+    notifyListeners();
   }
 
   List<Review> get allReviews => List.unmodifiable(_reviews);
@@ -58,6 +76,7 @@ class ReviewRepository extends ChangeNotifier {
         .collection('users/${auth.activeUser!.uid}/reviews')
         .doc(review.id)
         .set({
+      'id': review.id,
       'movieTitle': review.movieTitle,
       'movieId': review.movieId,
       'reviewText': review.reviewText,
