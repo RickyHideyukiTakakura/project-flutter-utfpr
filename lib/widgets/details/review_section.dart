@@ -5,9 +5,9 @@ import 'package:myapp/widgets/review_card.dart';
 import 'package:provider/provider.dart';
 
 class ReviewSection extends StatefulWidget {
-  final String movieTitle;
+  final String movieId;
 
-  const ReviewSection({Key? key, required this.movieTitle}) : super(key: key);
+  const ReviewSection({Key? key, required this.movieId}) : super(key: key);
 
   @override
   State<ReviewSection> createState() => _ReviewSectionState();
@@ -19,7 +19,7 @@ class _ReviewSectionState extends State<ReviewSection> {
   @override
   Widget build(BuildContext context) {
     reviewList = Provider.of<ReviewRepository>(context);
-    List<Review> reviews = reviewList.getReviewsByTitle(widget.movieTitle);
+    List<Review> reviews = reviewList.getReviewsByMovieId(widget.movieId);
 
     return SizedBox(
       child: Column(

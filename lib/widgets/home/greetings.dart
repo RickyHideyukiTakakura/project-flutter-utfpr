@@ -18,9 +18,9 @@ class Greetings extends StatelessWidget {
             const TextSpan(text: 'Hello, '),
             TextSpan(
               text: name,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.deepPurple,
+                color: Colors.deepPurple[100]!,
               ),
             ),
           ],

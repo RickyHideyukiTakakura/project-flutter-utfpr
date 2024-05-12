@@ -1,71 +1,59 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:myapp/models/movie.dart';
 
 class MovieRepository {
-  static List<Movie> table = [
-    Movie(
-      title: "The Shawshank Redemption",
-      description:
-          "Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.",
-      director: "Frank Darabont",
-      releasedYear: 1994,
-      duration: 142,
-      rating: 9.3,
-      genre: ["Drama"],
-      image: "./images/the_shawshank_redemption.jpeg",
-    ),
-    Movie(
-      title: "The Godfather",
-      description:
-          "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-      director: "Francis Ford Coppola",
-      releasedYear: 1972,
-      duration: 175,
-      rating: 9.2,
-      genre: ["Crime", "Drama"],
-      image: "./images/the_godfather.jpg",
-    ),
-    Movie(
-      title: "The Dark Knight",
-      description:
-          "When the menace known as the Joker emerges from his mysterious past, he wreaks havoc and chaos on the people of Gotham.",
-      director: "Christopher Nolan",
-      releasedYear: 2008,
-      duration: 152,
-      rating: 9.0,
-      genre: ["Action", "Crime", "Drama"],
-      image: "./images/the_dark_knight.jpg",
-    ),
-    Movie(
-      title: "The Godfather: Part II",
-      description:
-          "The early life and career of Vito Corleone in 1920s New York is portrayed while his son, Michael, expands and tightens his grip on the family crime syndicate.",
-      director: "Francis Ford Coppola",
-      releasedYear: 1974,
-      duration: 202,
-      rating: 9.0,
-      genre: ["Crime", "Drama"],
-      image: "./images/the_godfather_part2.jpg",
-    ),
-    Movie(
-        title: "12 Angry Men",
-        description:
-            "A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider the evidence.",
-        director: "Sidney Lumet",
-        releasedYear: 1957,
-        duration: 96,
-        rating: 9.0,
-        genre: ["Crime", "Drama"],
-        image: "./images/12_angry_men.jpg"),
-    Movie(
-      title: "Interstellar",
-      description:
-          "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-      director: "Christopher Nolan",
-      releasedYear: 2014,
-      duration: 169,
-      rating: 8.6,
-      genre: ["Fiction"],
-      image: "./images/interstellar.jpeg",
-    ),
-  ];
+  static const _apiKey = '939e096e7e9b8a049aab66733f4d9f7f';
+  static final Map<String, Movie> moviesCache = {};
+
+  static Future<List<Movie>> fetchMovies() async {
+    const url = 'https://api.themoviedb.org/3/movie/top_rated?api_key=$_apiKey';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      List<dynamic> moviesJson = jsonDecode(response.body)['results'];
+      List<Movie> movies =
+          moviesJson.map((json) => Movie.fromJson(json)).toList();
+      for (var movie in movies) {
+        moviesCache[movie.id] = movie;
+      }
+      return movies;
+    } else {
+      throw Exception('Failed to load movies');
+    }
+  }
+
+  static Future<Movie> fetchMovieDetails(String movieId) async {
+    if (moviesCache.containsKey(movieId)) {
+      if (moviesCache[movieId]!.duration > 0) {
+        return moviesCache[movieId]!;
+      }
+    }
+
+    final url = 'https://api.themoviedb.org/3/movie/$movieId?api_key=$_apiKey';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      Movie movie = Movie.fromJson(jsonDecode(response.body));
+      moviesCache[movieId] = movie;
+      return movie;
+    } else {
+      throw Exception('Failed to load movie details');
+    }
+  }
+
+  static Future<List<Movie>> searchMovies(String query) async {
+    final encodedQuery = Uri.encodeComponent(query);
+    final url =
+        'https://api.themoviedb.org/3/search/movie?api_key=$_apiKey&query=$encodedQuery';
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      List<dynamic> results = jsonDecode(response.body)['results'];
+      return results.map((movie) => Movie.fromJson(movie)).toList();
+    } else {
+      throw Exception('Failed to load search results');
+    }
+  }
 }

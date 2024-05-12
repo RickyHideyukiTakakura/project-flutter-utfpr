@@ -11,11 +11,11 @@ class FavoriteMoviesSection extends StatefulWidget {
 }
 
 class _FavoriteMoviesSectionState extends State<FavoriteMoviesSection> {
-  late FavoriteRepository favoriteMovie;
+  // late FavoriteRepository favoriteMovie;
 
   @override
   Widget build(BuildContext context) {
-    favoriteMovie = Provider.of<FavoriteRepository>(context);
+    // favoriteMovie = Provider.of<FavoriteRepository>(context);
 
     return SizedBox(
       height: 240,
@@ -32,27 +32,31 @@ class _FavoriteMoviesSectionState extends State<FavoriteMoviesSection> {
             ),
           ),
           Expanded(
-            child: (favoriteMovie.favoriteMoviesList.isEmpty)
-                ? const Center(
-                    child: Text("No movies added to favorites"),
-                  )
-                : ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: favoriteMovie.favoriteMoviesList.length,
-                    padding: const EdgeInsets.only(
-                      left: 16,
-                      right: 16,
-                      top: 16,
-                    ),
-                    itemBuilder: (_, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8),
-                        child: MovieCard(
-                          movie: favoriteMovie.favoriteMoviesList[index],
+            child: Consumer<FavoriteRepository>(
+              builder: (context, favoriteMovie, child) {
+                return (favoriteMovie.favoriteMoviesList.isEmpty)
+                    ? const Center(
+                        child: Text("No movies added to favorites"),
+                      )
+                    : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: favoriteMovie.favoriteMoviesList.length,
+                        padding: const EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          top: 16,
                         ),
+                        itemBuilder: (_, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8),
+                            child: MovieCard(
+                              movie: favoriteMovie.favoriteMoviesList[index],
+                            ),
+                          );
+                        },
                       );
-                    },
-                  ),
+              },
+            ),
           ),
         ],
       ),

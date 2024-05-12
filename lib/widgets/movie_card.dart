@@ -15,7 +15,7 @@ class MovieCard extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (_) => DetailsPage(
-              movie: movie,
+              movieId: movie.id,
             ),
           ),
         );
@@ -30,11 +30,17 @@ class MovieCard extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  movie.image,
-                  fit: BoxFit.fill,
-                  height: 160,
-                ),
+                child: movie.image.startsWith('http')
+                    ? Image.network(
+                        movie.image,
+                        fit: BoxFit.fill,
+                        height: 160,
+                      )
+                    : Image.asset(
+                        movie.image,
+                        fit: BoxFit.fill,
+                        height: 160,
+                      ),
               ),
             ),
             Expanded(

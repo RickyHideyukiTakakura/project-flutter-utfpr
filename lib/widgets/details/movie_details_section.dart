@@ -3,123 +3,110 @@ import 'package:myapp/models/movie.dart';
 import 'package:myapp/repositories/favorite_repository.dart';
 import 'package:provider/provider.dart';
 
-class MovieDetailsSection extends StatefulWidget {
+class MovieDetailsSection extends StatelessWidget {
   final Movie movie;
 
   const MovieDetailsSection({super.key, required this.movie});
 
   @override
-  State<MovieDetailsSection> createState() => _MovieDetailsSectionState();
-}
-
-class _MovieDetailsSectionState extends State<MovieDetailsSection> {
-  late FavoriteRepository favoriteMovie;
-
-  @override
   Widget build(BuildContext context) {
-    favoriteMovie = Provider.of<FavoriteRepository>(context);
-
-    return Column(
-      children: [
-        IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 16,
-                  left: 16,
-                  right: 16,
-                ),
-                child: Image.asset(
-                  widget.movie.image,
-                  fit: BoxFit.cover,
-                  height: 220,
-                ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.movie.title,
+    return Consumer<FavoriteRepository>(
+      builder: (context, favoriteMovie, child) {
+        return Column(
+          children: [
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 16,
+                      left: 16,
+                      right: 16,
+                    ),
+                    child: movie.image.startsWith('http')
+                        ? Image.network(
+                            movie.image,
+                            fit: BoxFit.cover,
+                            height: 220,
+                          )
+                        : Image.asset(
+                            'images/no_image_available.jpeg',
+                            fit: BoxFit.cover,
+                            height: 220,
+                            width: 160,
+                          ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text(
+                            movie.title,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            "Directed by ${widget.movie.director}",
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            movie.description,
                             style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.normal,
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 200,
-                      child: Text(
-                        widget.movie.description,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        softWrap: true,
-                        textAlign: TextAlign.justify,
-                      ),
-                    ),
-                    TextButton.icon(
-                      onPressed: () => {
-                        favoriteMovie.isFavorite(widget.movie)
-                            ? favoriteMovie.removeFavorite(widget.movie)
-                            : favoriteMovie.addFavorite(widget.movie)
-                      },
-                      style: const ButtonStyle(
-                        padding: MaterialStatePropertyAll(EdgeInsets.all(0)),
-                        foregroundColor: MaterialStatePropertyAll(Colors.white),
-                        textStyle: MaterialStatePropertyAll(
-                          TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
+                            softWrap: true,
+                            maxLines: 6,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.justify,
                           ),
                         ),
-                      ),
-                      icon: Icon(
-                        favoriteMovie.isFavorite(widget.movie)
-                            ? (Icons.favorite)
-                            : Icons.favorite_border_outlined,
-                        color: Colors.red,
-                      ),
-                      label: const Text("Favorite"),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text("Release year: ${widget.movie.releasedYear}"),
-              Text("Duration: ${widget.movie.duration} minutes"),
-              Text(
-                "Genre: ${widget.movie.genre.asMap().entries.map((e) => e.value).join(", ")}",
+                        TextButton.icon(
+                          onPressed: () {
+                            if (favoriteMovie.isFavorite(movie)) {
+                              favoriteMovie.removeFavorite(movie);
+                            } else {
+                              favoriteMovie.addFavorite([movie]);
+                            }
+                          },
+                          style: TextButton.styleFrom(
+                            textStyle: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          icon: Icon(
+                            favoriteMovie.isFavorite(movie)
+                                ? Icons.favorite
+                                : Icons.favorite_border_outlined,
+                            color: Colors.red,
+                          ),
+                          label: const Text("Favorite"),
+                        )
+                      ],
+                    ),
+                  )
+                ],
               ),
-              Text("IMDB Rating: ${widget.movie.rating}"),
-            ],
-          ),
-        ),
-      ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Text("Release year: ${movie.releasedYear}"),
+                  Text("Duration: ${movie.duration} minutes"),
+                  Text("Rating: ${movie.rating}"),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

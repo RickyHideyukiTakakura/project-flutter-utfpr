@@ -15,7 +15,6 @@ class ReviewForm extends StatefulWidget {
 
 class _ReviewFormState extends State<ReviewForm> {
   final TextEditingController ratingController = TextEditingController();
-
   final TextEditingController reviewController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -81,7 +80,6 @@ class MovieTitleAndRatingForm extends StatelessWidget {
                   keyboardType: const TextInputType.numberWithOptions(
                     decimal: true,
                   ),
-                  style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
                     contentPadding: EdgeInsets.only(left: 8),
                     labelText: 'Your rating (1-10)',
@@ -110,12 +108,19 @@ class MovieTitleAndRatingForm extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Image.asset(
-            movie.image,
-            width: 160,
-            height: 200,
-            fit: BoxFit.fill,
-          ),
+          child: movie.image.startsWith('http')
+              ? Image.network(
+                  movie.image,
+                  width: 160,
+                  height: 200,
+                  fit: BoxFit.fill,
+                )
+              : Image.asset(
+                  'images/no_image_available.jpeg',
+                  width: 160,
+                  height: 200,
+                  fit: BoxFit.fill,
+                ),
         ),
       ],
     );
@@ -148,31 +153,28 @@ class ReviewTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Expanded(
-        child: TextFormField(
-          controller: reviewController,
-          maxLines: 16,
-          keyboardType: TextInputType.multiline,
-          decoration: const InputDecoration(
-            labelText: 'Write down your review...',
-            labelStyle: TextStyle(
-              color: Colors.white70,
-              fontSize: 16,
-            ),
-            alignLabelWithHint: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
+      child: TextFormField(
+        controller: reviewController,
+        maxLines: 16,
+        keyboardType: TextInputType.multiline,
+        decoration: const InputDecoration(
+          labelText: 'Write down your review...',
+          labelStyle: TextStyle(
+            color: Colors.white70,
+            fontSize: 16,
+          ),
+          alignLabelWithHint: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
             ),
           ),
-          style: const TextStyle(color: Colors.white),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
         ),
       ),
     );
@@ -231,6 +233,7 @@ class PublishButtonState extends State<PublishButton> {
     if (widget.formKey.currentState!.validate()) {
       final newReview = Review(
         id: UniqueKey().toString(),
+        movieId: widget.movie.id,
         movieTitle: widget.movie.title,
         rating: double.parse(widget.ratingController.text),
         reviewText: widget.reviewController.text,
