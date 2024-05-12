@@ -11,35 +11,51 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   Future<List<Movie>>? _searchResults;
 
-  void _searchMovies() {
+  _searchMovies() {
     setState(() {
-      _searchResults = MovieRepository.searchMovies(_controller.text);
+      _searchResults = MovieRepository.searchMovies(searchController.text);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Search Movies'),
-      ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _controller,
-              decoration: InputDecoration(
-                hintText: 'Enter movie name',
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: _searchMovies,
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Text(
+                'Search Movies',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple[100]!,
                 ),
               ),
-              onSubmitted: (value) => _searchMovies(),
+            ),
+          ),
+          Form(
+            key: formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                  hintText: 'Enter movie name',
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: _searchMovies,
+                  ),
+                ),
+                onSubmitted: (value) => _searchMovies(),
+              ),
             ),
           ),
           Expanded(

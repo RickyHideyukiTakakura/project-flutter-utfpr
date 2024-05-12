@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         controller: pc,
         onPageChanged: setCurrentPage,
-        children: [
+        children: const [
           HomeContent(),
           SearchPage(),
           MyReviewsPage(),
