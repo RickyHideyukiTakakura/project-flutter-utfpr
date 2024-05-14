@@ -43,9 +43,10 @@ class AuthService extends ChangeNotifier {
         'email-already-in-use': 'Email is already in use',
       };
 
-      throw AuthException(
-        errorMessages[error.code].toString(),
-      );
+      String errorMessage = errorMessages[error.code] ??
+          'An unexpected error occurred, please try again later';
+
+      throw AuthException(errorMessage);
     }
   }
 
@@ -63,7 +64,6 @@ class AuthService extends ChangeNotifier {
         'user-not-found': 'Credentials invalid',
       };
 
-      // Use a default message for any other errors that are not explicitly handled above
       String errorMessage = errorMessages[error.code] ??
           'An unexpected error occurred, please try again later';
 
